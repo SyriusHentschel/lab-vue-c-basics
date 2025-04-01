@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue.js Basics Lab</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <style>
+    body {
+      font-family: Avenir, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      color: #2c3e50;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Navbar Styles */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background-color: #f8f9fa;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-brand h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #42b983;
+    }
+    
+    .navbar-menu {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .navbar-item {
+      text-decoration: none;
+      color: #2c3e50;
+      font-weight: bold;
+    }
+    
+    .navbar-item:hover {
+      color: #42b983;
+    }
+    
+    /* Main Content Styles */
+    .section {
+      margin-bottom: 40px;
+    }
+    
+    .card {
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    
+    button {
+      background-color: #42b983;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+    
+    button:hover {
+      background-color: #3aa876;
+    }
+    
+    .conditional-element {
+      background-color: #e9ecef;
+      padding: 15px;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+    
+    .post {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e9ecef;
+    }
+    
+    .post:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    
+    .description {
+      color: #6c757d;
+      font-style: italic;
+    }
+    
+    .color-box {
+      padding: 20px;
+      border-radius: 4px;
+      color: white;
+      text-align: center;
+      margin-bottom: 10px;
+      transition: background-color 0.3s ease;
+    }
+    
+    /* Footer Styles */
+    .footer {
+      margin-top: 2rem;
+      padding: 1rem;
+      background-color: #f8f9fa;
+      text-align: center;
+      border-top: 1px solid #e9ecef;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Navbar Component -->
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <h1>Vue.js Basics Lab</h1>
+      </div>
+      <div class="navbar-menu">
+        <a href="#" class="navbar-item">Home</a>
+        <a href="#" class="navbar-item">About</a>
+        <a href="#" class="navbar-item">Contact</a>
+      </div>
+    </nav>
+    
+    <main class="container">
+      <h1>Vue.js Basics Lab</h1>
+      
+      <!-- Iteration 2: Display the result of a JavaScript operation -->
+      <section class="section">
+        <h2>Iteration 2: JavaScript Operations</h2>
+        <div class="card">
+          <h3>Simple Math Operation:</h3>
+          <p>2 + 2 = {{ 2 + 2 }}</p>
+          
+          <h3>Function Result:</h3>
+          <p>{{ getGreeting() }}</p>
+        </div>
+      </section>
+      
+      <!-- Iteration 3: Conditional Rendering -->
+      <section class="section">
+        <h2>Iteration 3: Conditional Rendering</h2>
+        <div class="card">
+          <button @click="toggleVisibility">Toggle Visibility</button>
+          <div v-if="isVisible" class="conditional-element">
+            <p>This element is visible because the condition is true!</p>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Iteration 4: List Rendering -->
+      <section class="section">
+        <h2>Iteration 4: List Rendering</h2>
+        <div class="card">
+          <div v-for="(post, index) in posts" :key="index" class="post">
+            <h3>{{ post.title }}</h3>
+            <p class="description">{{ post.description }}</p>
+            <p class="content">{{ post.content }}</p>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Iteration 5: Dynamic Styling -->
+      <section class="section">
+        <h2>Iteration 5: Dynamic Styling</h2>
+        <div class="card">
+          <div class="color-box" :style="{ backgroundColor: boxColor }">
+            <p>This box changes color when you click the button!</p>
+          </div>
+          <button @click="changeColor">Change Color</button>
+        </div>
+      </section>
+    </main>
+    
+    <!-- Footer Component -->
+    <footer class="footer">
+      <p>&copy; {{ currentYear }} Vue.js Basics Lab</p>
+    </footer>
+  </div>
+
+  <script>
+    const { createApp, ref } = Vue;
+    
+    createApp({
+      setup() {
+        // Iteration 2: Function that returns a string
+        const userName = ref('Vue Developer');
+        const getGreeting = () => {
+          return `Hello, ${userName.value}! Welcome to Vue.js Basics Lab.`;
+        };
+        
+        // Iteration 3: Conditional rendering
+        const isVisible = ref(true);
+        const toggleVisibility = () => {
+          isVisible.value = !isVisible.value;
+        };
+        
+        // Iteration 4: List rendering
+        const posts = ref([
+          {
+            title: 'Getting Started with Vue.js',
+            description: 'Learn the basics of Vue.js framework',
+            content: 'Vue.js is a progressive JavaScript framework used for building user interfaces. It is designed to be incrementally adoptable.'
+          },
+          {
+            title: 'Understanding the Composition API',
+            description: 'A deep dive into Vue 3 Composition API',
+            content: 'The Composition API is a set of APIs that allows us to author Vue components using imported functions instead of declaring options.'
+          },
+          {
+            title: 'Building Reusable Components',
+            description: 'Best practices for component design',
+            content: 'Creating reusable components is essential for maintaining a clean and efficient codebase. This post explores strategies for designing components that can be used across your application.'
+          }
+        ]);
+        
+        // Iteration 5: Dynamic styling
+        const colors = ['#42b983', '#3498db', '#e74c3c', '#f39c12', '#9b59b6'];
+        const boxColor = ref('#42b983');
+        const changeColor = () => {
+          // Get a random color different from the current one
+          let newColor;
+          do {
+            newColor = colors[Math.floor(Math.random() * colors.length)];
+          } while (newColor === boxColor.value);
+          
+          boxColor.value = newColor;
+        };
+        
+        // Get current year for footer
+        const currentYear = ref(new Date().getFullYear());
+        
+        return {
+          userName,
+          getGreeting,
+          isVisible,
+          toggleVisibility,
+          posts,
+          boxColor,
+          changeColor,
+          currentYear
+        };
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
